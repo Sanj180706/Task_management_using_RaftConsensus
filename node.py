@@ -202,7 +202,7 @@ class Node():
     def init_timeout(self):
         self.reset_timeout()
         # safety guarantee, timeout thread may expire after election
-        if self.timeout_thread and self.timeout_thread.isAlive():
+        if self.timeout_thread and self.timeout_thread.is_alive():
             return
         self.timeout_thread = threading.Thread(target=self.timeout_loop)
         self.timeout_thread.start()
@@ -222,7 +222,7 @@ class Node():
         key = payload["key"]
         if key in self.DB:
             payload["value"] = self.DB[key]
-            return payload
+            return payload["value"].split()
         else:
             return None
 
