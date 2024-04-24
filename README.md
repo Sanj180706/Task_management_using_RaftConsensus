@@ -1,100 +1,12 @@
-# **Task Management using Raft Consensus**
+# Task Management using Raft Consensus
 
-## Initilation 
+Raft is a consensus algorithm designed for managing a replicated log in a distributed system. It ensures that all nodes in a cluster agree on the same sequence of entries in the log, even in the presence of failures. Raft is based on a leader-follower model, where one node serves as the leader and coordinates the replication process, while the other nodes act as followers and replicate the leader's log.
 
-### Creating virtual environment
+In a Raft-based system using MySQL, each node in the cluster would have its own MySQL database instance to store the replicated log. The leader would receive client requests, append entries to its log, and replicate them to followers. Followers would apply these entries to their logs and respond to clients with the results. If the leader fails, a new leader is elected through an interactive process among the nodes, ensuring the system's availability and consistency.
 
-```bash
-python -m venv venv
-venv/Scripts/activate #only for win
-```
-
-### Installing modules
-
-```bash
-pip install -r requirements.txt
-```
-
-### DB init
-
-
-
-In `node.py` make changes to this line according to your configuration.
-```bash
-self.mydb = mysql.connector.connect(host="localhost", user="root",password="password123", database="")
-```
-
-Make sure that the database is already created with the name `task`. Also the tables,`users` and `tasks`, also need to be made before running the code 
-
-- Creating db
-```bash
-drop database task;
-create database task;
-use task;
-```
-
-- Creating table
-```bash
-CREATE TABLE IF NOT EXISTS users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL
-);
-
-
-CREATE TABLE IF NOT EXISTS tasks (
-    task_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    due_date DATE,
-    priority ENUM('Low', 'Medium', 'High') NOT NULL,
-    status ENUM('Todo', 'In Progress', 'Done') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
-```
-
-### To run servers
-
-> If you get any error then use only 3 terminals
-
-- Terminal 1
-```bash
-venv/Scripts/activate
-python server.py 0 ip_list.txt
-```
-
-- Terminal 2
-```bash
-venv/Scripts/activate
-python server.py 1 ip_list.txt
-```
-
-- Terminal 3
-```bash
-venv/Scripts/activate
-python server.py 2 ip_list.txt
-```
-
-- Terminal 4
-```bash
-venv/Scripts/activate
-python server.py 3 ip_list.txt
-```
-
-- Terminal 5
-```bash
-venv/Scripts/activate
-python server.py 4 ip_list.txt
-```
-
-- Terminal 6
-```bash
-venv/Scripts/activate
-# streamlit run app.py
-streamlit run app.py --client.showErrorDetails=false
-```
+| Name                                           | SRN           | Section |
+| :--------------------------------------------- | :------------ | :-----: |
+| [Sanjay Sunil](https://github.com/Sanj180706)  | PES1UG21CS535 |    I    |
+| [Sarang Kumar](https://github.com/SarangKumar) | PES1UG21CS537 |    I    |
+| Vasanth Seemakurthy                            | PES1UG21CS437 |    I    |
+| Sai Harshith Narra                             | PES1UG21CS513 |    I    |
